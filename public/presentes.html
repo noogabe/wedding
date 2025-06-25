@@ -36,8 +36,31 @@
 </head>
 <body class="bg-fundoEscuro text-begeClaro">
   <div class="max-w-xl mx-auto mt-10 p-6 bg-[#2d2d2d] rounded-none shadow-lg transition-all duration-300">
-    <h1 class="text-4xl text-gray-300 text-center mb-2 animate-fade-in">Lista de Presentes de Casamento</h1>
+    <h1 class="text-4xl text-gray-300 text-center mb-2 animate-fade-in">Lista de Presentes</h1>
     <p class="text-center text-gray-300 mb-6">Escolha um presente para nos ajudar a começar essa nova fase com muito amor! 🌻</p>
+
+    <!-- Paleta de cores dentro do container -->
+    <div class="mb-6">
+      <h2 class="text-center text-begeClaro mb-3">Sugestões de cores</h2>
+      <div class="flex gap-6 justify-center">
+        <div class="flex flex-col items-center gap-1 w-20">
+          <div class="w-6 h-6 bg-pretoEscuro rounded-full border border-gray-600"></div>
+          <span class="text-begeClaro text-sm">Preto</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 w-20">
+          <div class="w-6 h-6 bg-gray-600 rounded-full border border-gray-500"></div>
+          <span class="text-begeClaro text-sm">Cinza</span>
+        </div>
+        <div class="flex flex-col items-center gap-1 w-20">
+          <div
+            class="w-6 h-6 rounded-full border"
+            style="background: linear-gradient(135deg, #a0522d, #deb887); border-color: #9c7b59;"
+          ></div>
+          <span class="text-begeClaro text-sm">Amadeirado</span>
+        </div>
+      </div>
+    </div>
+
     <ul id="lista" class="space-y-4"></ul>
   </div>
 
@@ -98,11 +121,12 @@
       fetch('/api/presentes')
         .then(res => res.json())
         .then(presentes => {
-          // Ordenar presentes: disponíveis primeiro, depois reservados, em ordem alfabética
+          // Ordena: disponíveis primeiro, depois reservados, e dentro de cada grupo em ordem alfabética
           presentes.sort((a, b) => {
-            if (!a.reservadoPor && b.reservadoPor) return -1;
-            if (a.reservadoPor && !b.reservadoPor) return 1;
-            return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+            if (!!a.reservadoPor === !!b.reservadoPor) {
+              return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+            }
+            return a.reservadoPor ? 1 : -1;
           });
 
           const lista = document.getElementById('lista');
