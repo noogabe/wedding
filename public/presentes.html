@@ -98,6 +98,13 @@
       fetch('/api/presentes')
         .then(res => res.json())
         .then(presentes => {
+          // Ordenar presentes: disponíveis primeiro, depois reservados, em ordem alfabética
+          presentes.sort((a, b) => {
+            if (!a.reservadoPor && b.reservadoPor) return -1;
+            if (a.reservadoPor && !b.reservadoPor) return 1;
+            return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
+          });
+
           const lista = document.getElementById('lista');
           lista.innerHTML = '';
           presentes.forEach(p => {
