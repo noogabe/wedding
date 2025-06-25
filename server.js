@@ -67,23 +67,38 @@ app.post('/api/cancelar', (req, res) => {
 });
 
 app.post('/api/confirmar-presenca', (req, res) => {
-  let { nome, quantidade } = req.body;
+  let { nome, quantidade, tipo } = req.body;
 
   if (
     !nome ||
     typeof nome !== 'string' ||
     !quantidade ||
     typeof quantidade !== 'number' ||
-    quantidade < 1
+    quantidade < 1 ||
+    !tipo ||
+    typeof tipo !== 'string'
   ) {
     return res.status(400).json({ error: 'Dados inválidos' });
   }
 
   nome = nome.trim();
+  tipo = tipo.trim().toLowerCase();
 
   const confirmacoes = loadConfirmacoes();
 
-  const idx = confirmacoes.findIndex(c => c.nome.toLowerCase() === nome.toLowerCase());
+  // Limite para casamento: 20 pessoas
+  if (tipo === 'casamento') {
+    const totalConfirmadosCasamento = confirmacoes
+      .filter(c => c.tipo === 'casamento')
+      .reduce((soma, c) => soma + (c.quantidade || 1), 0);
+
+    if (totalConfirmadosCasamento + quantidade > 20) {
+      return res.status(403).json({ error: 'Limite de convidados para o casamento já foi atingido.' });
+    }
+  }
+
+  // Verifica se a pessoa já confirmou esse tipo
+  const idx = confirmacoes.findIndex(c => c.nome.toLowerCase() === nome.toLowerCase() && c.tipo === tipo);
 
   if (idx >= 0) {
     confirmacoes[idx].quantidade = quantidade;
@@ -92,6 +107,7 @@ app.post('/api/confirmar-presenca', (req, res) => {
     confirmacoes.push({
       nome,
       quantidade,
+      tipo,
       data: new Date().toISOString()
     });
   }
@@ -100,6 +116,7 @@ app.post('/api/confirmar-presenca', (req, res) => {
 
   res.status(201).json({ sucesso: true });
 });
+
 
 app.get('/api/confirmacoes', (req, res) => {
   res.json(loadConfirmacoes());
