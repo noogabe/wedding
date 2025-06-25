@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "nome": "Jogo de cama queen",
+    "nome": "Jogo de cama queen de algodão",
     "reservadoPor": ""
   },
   {
@@ -22,6 +22,226 @@
   {
     "id": 5,
     "nome": "Panela de pressão elétrica",
+    "reservadoPor": ""
+  },
+  {
+    "id": 6,
+    "nome": "Cesto de roupas sujas",
+    "reservadoPor": ""
+  },
+  {
+    "id": 7,
+    "nome": "Conjunto de potes de vidro",
+    "reservadoPor": ""
+  },
+  {
+    "id": 8,
+    "nome": "Jogo americano",
+    "reservadoPor": ""
+  },
+  {
+    "id": 9,
+    "nome": "Porta papel toalha",
+    "reservadoPor": ""
+  },
+  {
+    "id": 10,
+    "nome": "Kit de descansos de panela",
+    "reservadoPor": ""
+  },
+  {
+    "id": 11,
+    "nome": "Descanso de tampas de panela",
+    "reservadoPor": ""
+  },
+  {
+    "id": 12,
+    "nome": "Luva de cozinha",
+    "reservadoPor": ""
+  },
+  {
+    "id": 13,
+    "nome": "Sapateira",
+    "reservadoPor": ""
+  },
+  {
+    "id": 14,
+    "nome": "Kit de tapetes",
+    "reservadoPor": ""
+  },
+  {
+    "id": 15,
+    "nome": "Jogo de lençois queen de algodão",
+    "reservadoPor": ""
+  },
+  {
+    "id": 16,
+    "nome": "Protetor para colchão impermeável",
+    "reservadoPor": ""
+  },
+  {
+    "id": 17,
+    "nome": "Kit de mantas para sofá",
+    "reservadoPor": ""
+  },
+  {
+    "id": 18,
+    "nome": "Tapete de sala 1,5 x 2,0m",
+    "reservadoPor": ""
+  },
+  {
+    "id": 19,
+    "nome": "Aparelho de jantar",
+    "reservadoPor": ""
+  },
+  {
+    "id": 20,
+    "nome": "Amolador de facas",
+    "reservadoPor": ""
+  },
+  {
+    "id": 21,
+    "nome": "Porta temperos",
+    "reservadoPor": ""
+  },
+  {
+    "id": 22,
+    "nome": "Garrafa térmica de café",
+    "reservadoPor": ""
+  },
+  {
+    "id": 23,
+    "nome": "Kit de potes herméticos transparentes",
+    "reservadoPor": ""
+  },
+  {
+    "id": 24,
+    "nome": "Jogo de facas",
+    "reservadoPor": ""
+  },
+  {
+    "id": 25,
+    "nome": "Purificador de água",
+    "reservadoPor": ""
+  },
+  {
+    "id": 26,
+    "nome": "Ferro de passar roupa",
+    "reservadoPor": ""
+  },
+  {
+    "id": 27,
+    "nome": "Cuscuzeira",
+    "reservadoPor": ""
+  },
+  {
+    "id": 28,
+    "nome": "Cabeceira estofada queen",
+    "reservadoPor": ""
+  },
+  {
+    "id": 29,
+    "nome": "Escorredor de massa inox",
+    "reservadoPor": ""
+  },
+  {
+    "id": 30,
+    "nome": "Kit de peneiras inox",
+    "reservadoPor": ""
+  },
+  {
+    "id": 31,
+    "nome": "Jogo de xícaras",
+    "reservadoPor": ""
+  },
+  {
+    "id": 32,
+    "nome": "Jogo de copos",
+    "reservadoPor": ""
+  },
+  {
+    "id": 33,
+    "nome": "Jogo de taças de sobremesa",
+    "reservadoPor": ""
+  },
+  {
+    "id": 34,
+    "nome": "Mop spray",
+    "reservadoPor": ""
+  },
+  {
+    "id": 35,
+    "nome": "Kit cobre leito queen",
+    "reservadoPor": ""
+  },
+  {
+    "id": 36,
+    "nome": "Lava louças",
+    "reservadoPor": ""
+  },
+  {
+    "id": 37,
+    "nome": "Kit 4 travesseiros",
+    "reservadoPor": ""
+  },
+  {
+    "id": 38,
+    "nome": "Tábua de passar roupas",
+    "reservadoPor": ""
+  },
+  {
+    "id": 39,
+    "nome": "Kit de cabides",
+    "reservadoPor": ""
+  },
+  {
+    "id": 40,
+    "nome": "Guarda roupa casal",
+    "reservadoPor": ""
+  },
+  {
+    "id": 41,
+    "nome": "Kit lavabo (Porta sabonete líquido e porta escovas)",
+    "reservadoPor": ""
+  },
+  {
+    "id": 42,
+    "nome": "Suportes organizador para banheiro",
+    "reservadoPor": ""
+  },
+  {
+    "id": 43,
+    "nome": "Jogo de toalhas de banho",
+    "reservadoPor": ""
+  },
+  {
+    "id": 44,
+    "nome": "Jogo de toalhas de rosto",
+    "reservadoPor": ""
+  },
+  {
+    "id": 45,
+    "nome": "Jogo de taças",
+    "reservadoPor": ""
+  },
+  {
+    "id": 46,
+    "nome": "Microondas",
+    "reservadoPor": ""
+  },
+  {
+    "id": 47,
+    "nome": "Kit panos de prato",
+    "reservadoPor": ""
+  },
+  {
+    "id": 48,
+    "nome": "Tapete passadeira para cozinha",
+    "reservadoPor": ""
+  },
+  {
+    "id": 49,
+    "nome": "Cobertor manta queen de microfibra",
     "reservadoPor": ""
   }
 ]
