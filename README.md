@@ -4,8 +4,8 @@
 lista-presentes-casamento/
 ├── public/
 │   ├── index.html
-│   ├── style.css
-│   └── script.js
+│   ├── confirmar.html
+│   └── presentes.html
 ├── data/
 │   └── dados.json
 ├── server.js
