@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "nome": "Jogo de cama queen",
+    "reservadoPor": ""
+  },
+  {
+    "id": 2,
+    "nome": "Air fryer",
+    "reservadoPor": ""
+  },
+  {
+    "id": 3,
+    "nome": "Conjunto de talheres",
+    "reservadoPor": "Nicole e Luis"
+  },
+  {
+    "id": 4,
+    "nome": "Aspirador de pó vertical",
+    "reservadoPor": ""
+  },
+  {
+    "id": 5,
+    "nome": "Panela de pressão elétrica",
+    "reservadoPor": ""
+  }
+]

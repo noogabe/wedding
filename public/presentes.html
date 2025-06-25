@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Presentes</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            inter: ['Inter', 'sans-serif']
+          },
+          colors: {
+            amareloGirassol: '#F9D923',
+            amareloEscuro: '#D6B30D',
+            verdeFolha: '#88B04B',
+            begeClaro: '#FFFDF5',
+            begeEscuro: '#F5E8C7',
+            pretoEscuro: '#1A202C',
+            fundoEscuro: '#222',
+            botaoPrimario: '#a1a270',
+            botaoPrimarioHover: '#8b8a5f',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      font-family: Inter, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-fundoEscuro text-begeClaro">
+  <div class="max-w-xl mx-auto mt-10 p-6 bg-[#2d2d2d] rounded-none shadow-lg transition-all duration-300">
+    <h1 class="text-4xl text-gray-300 text-center mb-2 animate-fade-in">Lista de Presentes de Casamento</h1>
+    <p class="text-center text-gray-300 mb-6">Escolha um presente para nos ajudar a começar essa nova fase com muito amor! 🌻</p>
+    <ul id="lista" class="space-y-4"></ul>
+  </div>
+
+  <!-- Modal para reservar -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-[#2d2d2d] text-begeClaro p-6 rounded-none shadow-lg w-80">
+      <h2 class="text-xl text-center mb-4">Digite seu nome</h2>
+      <input
+        type="text"
+        id="nomeInput"
+        placeholder="Seu nome"
+        class="w-full border border-[#a1a270] px-3 py-2 mb-4 bg-[#1a1a1a] text-white focus:outline-none focus:ring-2 focus:ring-[#a1a270]"
+      />
+      <div class="grid grid-cols-2 gap-4">
+        <button
+          onclick="confirmarReserva()"
+          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200"
+        >
+          Confirmar
+        </button>
+        <button
+          onclick="fecharModal()"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para cancelar reserva -->
+  <div id="modalCancelar" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-[#2d2d2d] text-begeClaro p-6 rounded-none shadow-lg w-80">
+      <h2 class="text-xl text-center mb-4">Cancelar Reserva</h2>
+      <p class="mb-6 text-center">Tem certeza que deseja cancelar essa reserva?</p>
+      <div class="grid grid-cols-2 gap-4">
+        <button
+          id="btnConfirmarCancelar"
+          onclick="confirmarCancelamento()"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200"
+        >
+          Confirmar
+        </button>
+        <button
+          onclick="fecharModalCancelar()"
+          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200"
+        >
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let presenteSelecionadoId = null;
+
+    function carregarPresentes() {
+      fetch('/api/presentes')
+        .then(res => res.json())
+        .then(presentes => {
+          const lista = document.getElementById('lista');
+          lista.innerHTML = '';
+          presentes.forEach(p => {
+            const li = document.createElement('li');
+            li.className = `
+              flex justify-between items-center
+              bg-[#2d2d2d]
+              border-l-4 border-[#a1a270]
+              p-4 h-28
+              transition-shadow duration-300
+              hover:shadow-lg hover:bg-[#3a3a3a]
+            `.trim();
+
+            if (p.reservadoPor) {
+              li.title = `Reservado por ${p.reservadoPor}`;
+            }
+
+            li.innerHTML = `
+              <span class="w-1/2 truncate" title="${p.nome}">${p.nome}</span>
+              <div class="flex flex-col items-center max-w-[50%] text-center h-full justify-center gap-1">
+                <div class="text-sm text-begeClaro ${p.reservadoPor ? '' : 'h-0 overflow-hidden'}">
+                  ${p.reservadoPor ? 'Reservado' : ''}
+                </div>
+                <button
+                  onclick="${p.reservadoPor ? `abrirModalCancelar(${p.id})` : `abrirModal(${p.id})`}"
+                  class="${p.reservadoPor
+                    ? 'bg-red-600 hover:bg-red-700 text-white'
+                    : 'bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro'
+                  } px-3 py-2 transition-colors duration-200 rounded-none"
+                >
+                  ${p.reservadoPor ? 'Cancelar' : 'Vou dar!'}
+                </button>
+              </div>
+            `;
+            lista.appendChild(li);
+          });
+        });
+    }
+
+    function abrirModal(id) {
+      presenteSelecionadoId = id;
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function fecharModal() {
+      presenteSelecionadoId = null;
+      document.getElementById('modal').classList.add('hidden');
+      document.getElementById('nomeInput').value = '';
+    }
+
+    function confirmarReserva() {
+      const nome = document.getElementById('nomeInput').value.trim();
+      if (!nome) return alert('Por favor, digite seu nome.');
+
+      fetch('/api/reservar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: presenteSelecionadoId, nome })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro na reserva');
+        fecharModal();
+        carregarPresentes();
+      })
+      .catch(() => alert('Erro ao reservar o presente. Tente novamente.'));
+    }
+
+    function abrirModalCancelar(id) {
+      presenteSelecionadoId = id;
+      document.getElementById('modalCancelar').classList.remove('hidden');
+    }
+
+    function fecharModalCancelar() {
+      presenteSelecionadoId = null;
+      document.getElementById('modalCancelar').classList.add('hidden');
+    }
+
+    function confirmarCancelamento() {
+      fetch('/api/cancelar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: presenteSelecionadoId })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error('Erro no cancelamento');
+        fecharModalCancelar();
+        carregarPresentes();
+      })
+      .catch(() => alert('Erro ao cancelar a reserva. Tente novamente.'));
+    }
+
+    carregarPresentes();
+  </script>
+</body>
+</html>
