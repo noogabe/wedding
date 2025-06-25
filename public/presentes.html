@@ -147,7 +147,7 @@
             }
 
             li.innerHTML = `
-              <span class="w-1/2 truncate" title="${p.nome}">${p.nome}</span>
+              <span class="w-1/2 break-words leading-snug" title="${p.nome}">${p.nome}</span>
               <div class="flex flex-col items-center max-w-[50%] text-center h-full justify-center gap-1">
                 <div class="text-sm text-begeClaro ${p.reservadoPor ? '' : 'h-0 overflow-hidden'}">
                   ${p.reservadoPor ? 'Reservado' : ''}
