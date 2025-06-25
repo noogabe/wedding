@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -5,7 +6,6 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 const DATA_FILE = path.join(__dirname, 'data', 'dados.json');
 const CONFIRMACOES_FILE = path.join(__dirname, 'data', 'confirmacoes.json');
 
@@ -105,6 +105,8 @@ app.get('/api/confirmacoes', (req, res) => {
   res.json(loadConfirmacoes());
 });
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
+
