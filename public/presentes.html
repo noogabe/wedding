@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -34,12 +35,14 @@
     }
   </style>
 </head>
+
 <body class="bg-fundoEscuro text-begeClaro">
   <div class="max-w-xl mx-auto mt-10 p-6 bg-[#2d2d2d] rounded-none shadow-lg transition-all duration-300">
-    <h1 class="text-4xl text-gray-300 text-center mb-2 animate-fade-in">Lista de Presentes</h1>
-    <p class="text-center text-gray-300 mb-6">Escolha um presente para nos ajudar a começar essa nova fase com muito amor! 🌻</p>
+    <h1 class="text-4xl text-gray-300 text-center mb-2">Lista de Presentes</h1>
+    <p class="text-center text-gray-300 mb-6">Escolha um presente para nos ajudar a começar essa nova fase com muito
+      amor! 🌻</p>
 
-    <!-- Paleta de cores dentro do container -->
+    <!-- Paleta de cores -->
     <div class="mb-6">
       <h2 class="text-center text-begeClaro mb-3">Sugestões de cores</h2>
       <div class="flex gap-6 justify-center">
@@ -52,10 +55,8 @@
           <span class="text-begeClaro text-sm">Cinza</span>
         </div>
         <div class="flex flex-col items-center gap-1 w-20">
-          <div
-            class="w-6 h-6 rounded-full border"
-            style="background: linear-gradient(135deg, #a0522d, #deb887); border-color: #9c7b59;"
-          ></div>
+          <div class="w-6 h-6 rounded-full border"
+            style="background: linear-gradient(135deg, #a0522d, #deb887); border-color: #9c7b59;"></div>
           <span class="text-begeClaro text-sm">Amadeirado</span>
         </div>
       </div>
@@ -68,23 +69,15 @@
   <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-[#2d2d2d] text-begeClaro p-6 rounded-none shadow-lg w-80">
       <h2 class="text-xl text-center mb-4">Digite seu nome</h2>
-      <input
-        type="text"
-        id="nomeInput"
-        placeholder="Seu nome"
-        class="w-full border border-[#a1a270] px-3 py-2 mb-4 bg-[#1a1a1a] text-white focus:outline-none focus:ring-2 focus:ring-[#a1a270]"
-      />
+      <input type="text" id="nomeInput" placeholder="Seu nome"
+        class="w-full border border-[#a1a270] px-3 py-2 mb-4 bg-[#1a1a1a] text-white focus:outline-none focus:ring-2 focus:ring-[#a1a270]" />
       <div class="grid grid-cols-2 gap-4">
-        <button
-          onclick="confirmarReserva()"
-          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200"
-        >
+        <button onclick="confirmarReserva()"
+          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200">
           Confirmar
         </button>
-        <button
-          onclick="fecharModal()"
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200"
-        >
+        <button onclick="fecharModal()"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200">
           Cancelar
         </button>
       </div>
@@ -97,17 +90,12 @@
       <h2 class="text-xl text-center mb-4">Cancelar Reserva</h2>
       <p class="mb-6 text-center">Tem certeza que deseja cancelar essa reserva?</p>
       <div class="grid grid-cols-2 gap-4">
-        <button
-          id="btnConfirmarCancelar"
-          onclick="confirmarCancelamento()"
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200"
-        >
+        <button id="btnConfirmarCancelar" onclick="confirmarCancelamento()"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-none transition-colors duration-200">
           Confirmar
         </button>
-        <button
-          onclick="fecharModalCancelar()"
-          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200"
-        >
+        <button onclick="fecharModalCancelar()"
+          class="bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro px-4 py-2 rounded-none transition-colors duration-200">
           Cancelar
         </button>
       </div>
@@ -121,7 +109,6 @@
       fetch('/api/presentes')
         .then(res => res.json())
         .then(presentes => {
-          // Ordena: disponíveis primeiro, depois reservados, e dentro de cada grupo em ordem alfabética
           presentes.sort((a, b) => {
             if (!!a.reservadoPor === !!b.reservadoPor) {
               return a.nome.localeCompare(b.nome, 'pt-BR', { sensitivity: 'base' });
@@ -147,7 +134,16 @@
             }
 
             li.innerHTML = `
-              <span class="w-1/2 break-words leading-snug" title="${p.nome}">${p.nome}</span>
+              <div class="w-1/2 break-words leading-snug flex flex-col items-start gap-1">
+                <span title="${p.nome}">${p.nome}</span>
+                ${p.link ? `
+                <div class="flex items-center gap-1 text-sm">
+                  <span>🔗</span>
+                  <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="text-botaoPrimario underline hover:text-botaoPrimarioHover">
+                    Ver sugestão
+                  </a>
+                </div>` : ''}
+              </div>
               <div class="flex flex-col items-center max-w-[50%] text-center h-full justify-center gap-1">
                 <div class="text-sm text-begeClaro ${p.reservadoPor ? '' : 'h-0 overflow-hidden'}">
                   ${p.reservadoPor ? 'Reservado' : ''}
@@ -155,9 +151,9 @@
                 <button
                   onclick="${p.reservadoPor ? `abrirModalCancelar(${p.id})` : `abrirModal(${p.id})`}"
                   class="${p.reservadoPor
-                    ? 'bg-red-600 hover:bg-red-700 text-white'
-                    : 'bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro'
-                  } px-3 py-2 transition-colors duration-200 rounded-none"
+                ? 'bg-red-600 hover:bg-red-700 text-white'
+                : 'bg-[#a1a270] hover:bg-[#8b8a5f] text-pretoEscuro'
+              } px-3 py-2 transition-colors duration-200 rounded-none"
                 >
                   ${p.reservadoPor ? 'Cancelar' : 'Vou dar!'}
                 </button>
@@ -188,12 +184,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: presenteSelecionadoId, nome })
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Erro na reserva');
-        fecharModal();
-        carregarPresentes();
-      })
-      .catch(() => alert('Erro ao reservar o presente. Tente novamente.'));
+        .then(res => {
+          if (!res.ok) throw new Error('Erro na reserva');
+          fecharModal();
+          carregarPresentes();
+        })
+        .catch(() => alert('Erro ao reservar o presente. Tente novamente.'));
     }
 
     function abrirModalCancelar(id) {
@@ -212,15 +208,16 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: presenteSelecionadoId })
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Erro no cancelamento');
-        fecharModalCancelar();
-        carregarPresentes();
-      })
-      .catch(() => alert('Erro ao cancelar a reserva. Tente novamente.'));
+        .then(res => {
+          if (!res.ok) throw new Error('Erro no cancelamento');
+          fecharModalCancelar();
+          carregarPresentes();
+        })
+        .catch(() => alert('Erro ao cancelar a reserva. Tente novamente.'));
     }
 
     carregarPresentes();
   </script>
 </body>
+
 </html>
