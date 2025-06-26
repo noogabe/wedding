@@ -98,7 +98,7 @@ app.post('/api/confirmar-presenca', (req, res) => {
       .reduce((soma, c) => soma + (c.quantidade || 1), 0);
 
     if (totalConfirmadosCasamento + quantidade > 20) {
-      return res.status(403).json({ error: 'Limite de convidados para o casamento já foi atingido.' });
+      return res.status(403).json({ error: 'O casamento está cheio! Por favor, marque apenas o churrasco.' });
     }
   }
 
