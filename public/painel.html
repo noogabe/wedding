@@ -36,10 +36,8 @@
 
 <body class="bg-fundoEscuro text-begeClaro min-h-screen px-4 py-8">
   <!-- Modal de senha -->
-  <div id="modalSenha"
-    class="fixed inset-0 bg-fundoEscuro bg-opacity-80 flex justify-center items-center z-50">
-    <div
-      class="bg-[#2d2d2d] p-6 rounded-none shadow-lg w-80 max-w-full text-center text-begeClaro">
+  <div id="modalSenha" class="fixed inset-0 bg-fundoEscuro bg-opacity-80 flex justify-center items-center z-50">
+    <div class="bg-[#2d2d2d] p-6 rounded-none shadow-lg w-80 max-w-full text-center text-begeClaro">
       <h2 class="text-2xl mb-4">Digite a senha</h2>
       <input id="inputSenha" type="password" placeholder="Senha"
         class="w-full bg-[#1a1a1a] border border-[#a1a270] px-3 py-2 mb-4 text-begeClaro rounded-none focus:outline-none focus:ring-2 focus:ring-botaoPrimario" />
@@ -57,18 +55,31 @@
   <div id="conteudoPainel" class="hidden max-w-3xl mx-auto">
     <h1 class="text-4xl mb-8 text-center">Lista de Confirmados</h1>
 
+    <div class="flex justify-center gap-4 mb-8">
+      <button onclick="baixarArquivo('confirmacoes')"
+        class="bg-botaoPrimario hover:bg-botaoPrimarioHover text-pretoEscuro px-4 py-2 rounded-none">
+        Baixar confirmados
+      </button>
+      <button onclick="baixarArquivo('presentes')"
+        class="bg-botaoPrimario hover:bg-botaoPrimarioHover text-pretoEscuro px-4 py-2 rounded-none">
+        Baixar presentes
+      </button>
+    </div>
+
     <!-- Casamento -->
     <section class="mb-10">
       <h2 class="text-2xl mb-4 border-b border-[#a1a270] pb-2">Casamento</h2>
       <p class="mb-4">Total confirmados: <span id="totalCasamento">0</span></p>
-      <ul id="listaCasamento" class="max-h-72 overflow-auto space-y-2 border border-[#a1a270] rounded-none p-4 bg-[#2d2d2d]"></ul>
+      <ul id="listaCasamento"
+        class="max-h-72 overflow-auto space-y-2 border border-[#a1a270] rounded-none p-4 bg-[#2d2d2d]"></ul>
     </section>
 
     <!-- Churrasco -->
     <section>
       <h2 class="text-2xl mb-4 border-b border-[#a1a270] pb-2">Churrasco</h2>
       <p class="mb-4">Total confirmados: <span id="totalChurrasco">0</span></p>
-      <ul id="listaChurrasco" class="max-h-72 overflow-auto space-y-2 border border-[#a1a270] rounded-none p-4 bg-[#2d2d2d]"></ul>
+      <ul id="listaChurrasco"
+        class="max-h-72 overflow-auto space-y-2 border border-[#a1a270] rounded-none p-4 bg-[#2d2d2d]"></ul>
     </section>
   </div>
 
@@ -78,6 +89,8 @@
     const inputSenha = document.getElementById('inputSenha');
     const msgErro = document.getElementById('msgErro');
     const conteudoPainel = document.getElementById('conteudoPainel');
+
+    let senhaAutenticada = null; // Guarda a senha para usar no download
 
     btnAcessar.addEventListener('click', async () => {
       const senha = inputSenha.value.trim();
@@ -102,11 +115,11 @@
 
         const dados = await res.json();
 
-        // Ocultar modal e mostrar painel
+        senhaAutenticada = senha;
+
         modalSenha.classList.add('hidden');
         conteudoPainel.classList.remove('hidden');
 
-        // Limpar listas e totais
         const listaCasamento = document.getElementById('listaCasamento');
         const listaChurrasco = document.getElementById('listaChurrasco');
         const totalCasamento = document.getElementById('totalCasamento');
@@ -146,6 +159,21 @@
         btnAcessar.click();
       }
     });
+
+    function baixarArquivo(tipo) {
+      if (!senhaAutenticada) {
+        alert("Erro: senha não detectada. Recarregue a página.");
+        return;
+      }
+      const url = `/api/baixar-json?arquivo=${tipo}&senha=${encodeURIComponent(senhaAutenticada)}`;
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `${tipo}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   </script>
 </body>
+
 </html>

@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const DATA_FILE = path.join(__dirname, 'data', 'dados.json');
+const PRESENTES_FILE = path.join(__dirname, 'data', 'presentes.json');
 const CONFIRMACOES_FILE = path.join(__dirname, 'data', 'confirmacoes.json');
 const SENHA = 'miau1234';
 
@@ -15,12 +15,12 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 function loadGifts() {
-  const data = fs.readFileSync(DATA_FILE, 'utf-8');
+  const data = fs.readFileSync(PRESENTES_FILE, 'utf-8');
   return JSON.parse(data);
 }
 
 function saveGifts(gifts) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(gifts, null, 2));
+  fs.writeFileSync(PRESENTES_FILE, JSON.stringify(gifts, null, 2));
 }
 
 function loadConfirmacoes() {
@@ -145,6 +145,31 @@ app.post('/api/confirmados-com-senha', (req, res) => {
     }
   });
 });
+
+app.get('/api/baixar-json', (req, res) => {
+  const { arquivo, senha } = req.query;
+
+  if (senha !== SENHA) {
+    return res.status(401).json({ error: 'Senha incorreta' });
+  }
+
+  let filePath;
+  if (arquivo === 'presentes') {
+    filePath = PRESENTES_FILE;
+  } else if (arquivo === 'confirmacoes') {
+    filePath = CONFIRMACOES_FILE;
+  } else {
+    return res.status(400).json({ error: 'Arquivo inválido' });
+  }
+
+  res.download(filePath, `${arquivo}.json`, err => {
+    if (err) {
+      console.error('Erro ao enviar arquivo:', err);
+      res.status(500).json({ error: 'Erro ao baixar o arquivo' });
+    }
+  });
+});
+
 
 
 
