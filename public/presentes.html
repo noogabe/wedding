@@ -65,6 +65,9 @@
     <ul id="lista" class="space-y-4"></ul>
   </div>
 
+  <!-- Feedback flutuante -->
+  <div id="mensagemFeedback" class="hidden fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 text-white font-semibold rounded-none text-center z-50"></div>
+
   <!-- Modal para reservar -->
   <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-[#2d2d2d] text-begeClaro p-6 rounded-none shadow-lg w-80">
@@ -104,6 +107,23 @@
 
   <script>
     let presenteSelecionadoId = null;
+
+    const mensagemFeedback = document.getElementById('mensagemFeedback');
+
+    function mostrarMensagem(texto, tipo = 'sucesso') {
+      mensagemFeedback.textContent = texto;
+      mensagemFeedback.classList.remove('hidden', 'bg-green-600', 'bg-red-600', 'shadow-lg');
+      if (tipo === 'sucesso') {
+        mensagemFeedback.classList.add('bg-green-600', 'shadow-lg');
+      } else {
+        mensagemFeedback.classList.add('bg-red-600', 'shadow-lg');
+      }
+      mensagemFeedback.classList.remove('hidden');
+
+      setTimeout(() => {
+        mensagemFeedback.classList.add('hidden');
+      }, 4000);
+    }
 
     function carregarPresentes() {
       fetch('/api/presentes')
@@ -177,7 +197,10 @@
 
     function confirmarReserva() {
       const nome = document.getElementById('nomeInput').value.trim();
-      if (!nome) return alert('Por favor, digite seu nome.');
+      if (!nome) {
+        mostrarMensagem('Por favor, digite seu nome.', 'erro');
+        return;
+      }
 
       fetch('/api/reservar', {
         method: 'POST',
@@ -187,9 +210,10 @@
         .then(res => {
           if (!res.ok) throw new Error('Erro na reserva');
           fecharModal();
+          mostrarMensagem('Presente reservado com sucesso!', 'sucesso');
           carregarPresentes();
         })
-        .catch(() => alert('Erro ao reservar o presente. Tente novamente.'));
+        .catch(() => mostrarMensagem('Erro ao reservar o presente. Tente novamente.', 'erro'));
     }
 
     function abrirModalCancelar(id) {
@@ -211,9 +235,10 @@
         .then(res => {
           if (!res.ok) throw new Error('Erro no cancelamento');
           fecharModalCancelar();
+          mostrarMensagem('Reserva cancelada com sucesso!', 'sucesso');
           carregarPresentes();
         })
-        .catch(() => alert('Erro ao cancelar a reserva. Tente novamente.'));
+        .catch(() => mostrarMensagem('Erro ao cancelar a reserva. Tente novamente.', 'erro'));
     }
 
     carregarPresentes();
