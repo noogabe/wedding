@@ -34,7 +34,11 @@
   </style>
 </head>
 
-<body class="bg-fundoEscuro text-begeClaro min-h-screen flex flex-col items-center justify-center px-4">
+<body class="bg-fundoEscuro text-begeClaro min-h-screen flex flex-col items-center justify-center px-4 relative">
+
+  <!-- Feedback flutuante -->
+  <div id="mensagemFeedback" class="hidden fixed top-5 left-1/2 -translate-x-1/2 px-6 py-3 text-white font-semibold rounded-none text-center z-50 shadow-lg"></div>
+
   <div class="max-w-md w-full bg-[#2d2d2d] p-6 rounded-none shadow-lg">
     <h1 class="text-3xl text-begeClaro mb-6 text-center">Confirmar Presença</h1>
     <form id="confirmForm" class="flex flex-col gap-4">
@@ -57,8 +61,6 @@
         Confirmar
       </button>
     </form>
-
-    <div id="mensagem" class="text-center mt-4"></div>
   </div>
 
   <div class="mt-8 max-w-md w-full space-y-6">
@@ -109,7 +111,22 @@
 
   <script>
     const form = document.getElementById('confirmForm');
-    const mensagem = document.getElementById('mensagem');
+    const mensagemFeedback = document.getElementById('mensagemFeedback');
+
+    function mostrarMensagem(texto, tipo = 'sucesso') {
+      mensagemFeedback.textContent = texto;
+      mensagemFeedback.classList.remove('hidden', 'bg-green-600', 'bg-red-600', 'shadow-lg');
+      if (tipo === 'sucesso') {
+        mensagemFeedback.classList.add('bg-green-600', 'shadow-lg');
+      } else {
+        mensagemFeedback.classList.add('bg-red-600', 'shadow-lg');
+      }
+      mensagemFeedback.classList.remove('hidden');
+
+      setTimeout(() => {
+        mensagemFeedback.classList.add('hidden');
+      }, 4000);
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -118,13 +135,11 @@
       const eventosSelecionados = Array.from(form.querySelectorAll('input[name="evento"]:checked')).map(el => el.value);
 
       if (!nome || eventosSelecionados.length === 0) {
-        mensagem.textContent = 'Por favor, preencha seu nome e selecione pelo menos um evento.';
-        mensagem.className = 'text-red-400 mt-4 text-center';
+        mostrarMensagem('Por favor, preencha seu nome e selecione pelo menos um evento.', 'erro');
         return;
       }
 
-      mensagem.textContent = 'Enviando confirmação...';
-      mensagem.className = 'text-begeClaro mt-4 text-center';
+      mostrarMensagem('Enviando confirmação...', 'sucesso');
 
       try {
         for (const evento of eventosSelecionados) {
@@ -140,12 +155,10 @@
           }
         }
 
-        mensagem.textContent = `Obrigado, ${nome}! Sua presença foi confirmada para ${eventosSelecionados.join(' e ')}.`;
-        mensagem.className = 'text-begeClaro mt-4 text-center';
+        mostrarMensagem(`Obrigado, ${nome}! Sua presença foi confirmada para o ${eventosSelecionados.join(' e ')}.`, 'sucesso');
         form.reset();
       } catch (error) {
-        mensagem.textContent = error.message || 'Erro ao enviar confirmação. Tente novamente.';
-        mensagem.className = 'text-red-400 mt-4 text-center';
+        mostrarMensagem(error.message || 'Erro ao enviar confirmação. Tente novamente.', 'erro');
       }
     });
   </script>
