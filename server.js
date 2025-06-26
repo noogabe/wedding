@@ -8,6 +8,7 @@ const path = require('path');
 const app = express();
 const DATA_FILE = path.join(__dirname, 'data', 'dados.json');
 const CONFIRMACOES_FILE = path.join(__dirname, 'data', 'confirmacoes.json');
+const SENHA = 'miau1234';
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -32,6 +33,10 @@ function loadConfirmacoes() {
 function saveConfirmacoes(confirmacoes) {
   fs.writeFileSync(CONFIRMACOES_FILE, JSON.stringify(confirmacoes, null, 2));
 }
+
+app.get('/painel-secreto', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/painel.html'));
+});
 
 app.get('/api/presentes', (req, res) => {
   res.json(loadGifts());
@@ -121,6 +126,27 @@ app.post('/api/confirmar-presenca', (req, res) => {
 app.get('/api/confirmacoes', (req, res) => {
   res.json(loadConfirmacoes());
 });
+
+app.post('/api/confirmados-com-senha', (req, res) => {
+  const { senha } = req.body;
+
+  if (senha !== SENHA) {
+    return res.status(401).json({ error: 'Senha incorreta' });
+  }
+
+  fs.readFile(CONFIRMACOES_FILE, 'utf-8', (err, data) => {
+    if (err) return res.status(500).json({ error: 'Erro ao ler dados' });
+
+    try {
+      const confirmacoes = JSON.parse(data);
+      res.json(confirmacoes);
+    } catch (e) {
+      res.status(500).json({ error: 'Erro ao processar JSON' });
+    }
+  });
+});
+
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
