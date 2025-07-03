@@ -96,21 +96,15 @@
     "data": "2025-06-26T15:18:01.501Z"
   },
   {
-    "nome": "Maria Lucimar (Vó)",
-    "quantidade": 1,
-    "tipo": "casamento",
-    "data": "2025-06-26T22:28:03.419Z"
-  },
-  {
-    "nome": "Maria Lucimar (Vó)",
-    "quantidade": 1,
-    "tipo": "churrasco",
-    "data": "2025-06-26T22:28:03.419Z"
-  },
-  {
     "nome": "LUIS FERNANDO SILVA",
     "quantidade": 1,
     "tipo": "churrasco",
+    "data": "2025-06-26T22:28:03.681Z"
+  },
+   {
+    "nome": "LUIS FERNANDO SILVA",
+    "quantidade": 1,
+    "tipo": "casamento",
     "data": "2025-06-26T22:28:03.681Z"
   },
   {
@@ -192,37 +186,13 @@
     "data": "2025-06-29T17:06:59.005Z"
   },
   {
-    "nome": "Mercia",
-    "quantidade": 1,
-    "tipo": "casamento",
-    "data": "2025-06-29T17:07:11.124Z"
-  },
-  {
-    "nome": "Mercia",
-    "quantidade": 1,
-    "tipo": "churrasco",
-    "data": "2025-06-29T17:07:11.821Z"
-  },
-  {
-    "nome": "Antônio",
-    "quantidade": 1,
-    "tipo": "casamento",
-    "data": "2025-06-29T17:07:20.909Z"
-  },
-  {
-    "nome": "Antônio",
-    "quantidade": 1,
-    "tipo": "churrasco",
-    "data": "2025-06-29T17:07:21.240Z"
-  },
-  {
-    "nome": "Alexandre",
+    "nome": "Alexandre Barbosa Lima",
     "quantidade": 1,
     "tipo": "casamento",
     "data": "2025-06-29T17:07:31.144Z"
   },
   {
-    "nome": "Alexandre",
+    "nome": "Alexandre Barbosa Lima",
     "quantidade": 1,
     "tipo": "churrasco",
     "data": "2025-06-29T17:07:31.368Z"
